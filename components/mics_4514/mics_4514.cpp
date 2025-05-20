@@ -68,7 +68,7 @@ void MICS4514Component::update() {
 
   float red_f = (float) (power - red) / this->red_calibration_;
   float ox_f = (float) (power - ox) / this->ox_calibration_;
-  ESP_LOGD(TAG, "red_f:%f  ox_f:%f");
+  ESP_LOGD(TAG, "red_f:%f  ox_f:%f", red_f, ox_f);
   if (this->carbon_monoxide_sensor_ != nullptr) {
     float co = 0.0f;
     if (red_f > 3.4f) {
