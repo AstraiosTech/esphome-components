@@ -54,7 +54,7 @@ void MICS4514Component::update() {
   }
   this->status_clear_warning();
 
-  LOG_SENSOR(TAG, "Got data: %02X %02X %02X %02X %02X %02X", data[0], data[1], data[2], data[3], data[4], data[5]);
+  ESP_LOGD(TAG, "Got data: %02X %02X %02X %02X %02X %02X", data[0], data[1], data[2], data[3], data[4], data[5]);
   uint16_t ox = encode_uint16(data[0], data[1]);
   uint16_t red = encode_uint16(data[2], data[3]);
   uint16_t power = encode_uint16(data[4], data[5]);
