@@ -87,7 +87,7 @@ void MICS4514Component::update() {
     if (ox_f < 1.1f) {
       nitrogendioxide = 0.0;
     } else {
-      nitrogendioxide = (ox_f - 0.045) / 6.13);
+      nitrogendioxide = (ox_f - 0.045) / 6.13;
     }
     if(nitrogendioxide < 0.1)
        nitrogendioxide = 0.0;
