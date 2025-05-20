@@ -54,7 +54,7 @@ void MICS4514Component::update() {
   }
   this->status_clear_warning();
 
-  ESP_LOGD(TAG, "Got data: ox_cal:%04x  red_cal:%02X %02X %02X %02X %02X %02X",this->ox_calibration_, this->red_calibration_, data[0], data[1], data[2], data[3], data[4], data[5]);
+  ESP_LOGD(TAG, "Got data: ox_cal:%f  red_cal:%f %02X %02X %02X %02X %02X",this->ox_calibration_, this->red_calibration_, data[0], data[1], data[2], data[3], data[4], data[5]);
   uint16_t ox = encode_uint16(data[0], data[1]);
   uint16_t red = encode_uint16(data[2], data[3]);
   uint16_t power = encode_uint16(data[4], data[5]);
@@ -68,7 +68,7 @@ void MICS4514Component::update() {
 
   float red_f = (float) (power - red) / this->red_calibration_;
   float ox_f = (float) (power - ox) / this->ox_calibration_;
-
+  ESP_LOGD(TAG, "red_f:%f  ox_f:%f");
   if (this->carbon_monoxide_sensor_ != nullptr) {
     float co = 0.0f;
     if (red_f > 3.4f) {
