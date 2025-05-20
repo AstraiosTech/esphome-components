@@ -84,7 +84,7 @@ void MICS4514Component::update() {
   // updated by mwb 5/19/25 to match DFRobot_MICS software
   if (this->nitrogen_dioxide_sensor_ != nullptr) {
     float nitrogendioxide = 0.0f;
-    if (ox_f < 1.1f) {
+    if (ox_f < 0.1f) {
       nitrogendioxide = 0.0;
     } else {
       nitrogendioxide = (ox_f - 0.045) / 6.13;
