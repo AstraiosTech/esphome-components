@@ -53,7 +53,8 @@ void MICS4514Component::update() {
     return;
   }
   this->status_clear_warning();
-  ESP_LOGV(TAG, "Got data: %02X %02X %02X %02X %02X %02X", data[0], data[1], data[2], data[3], data[4], data[5]);
+
+  LOG_SENSOR(TAG, "Got data: %02X %02X %02X %02X %02X %02X", data[0], data[1], data[2], data[3], data[4], data[5]);
   uint16_t ox = encode_uint16(data[0], data[1]);
   uint16_t red = encode_uint16(data[2], data[3]);
   uint16_t power = encode_uint16(data[4], data[5]);
@@ -80,33 +81,21 @@ void MICS4514Component::update() {
     this->carbon_monoxide_sensor_->publish_state(co);
   }
 
-
+  // updated by mwb 5/19/25 to match DFRobot_MICS software
   if (this->nitrogen_dioxide_sensor_ != nullptr) {
-   float nitrogendioxide = 0.0f;  
-   if(ox_f < 1.1) 
-      nitrogendioxide = 0;
-   nitrogendioxide = (ox_f - 0.045) / 6.13;
-   if(nitrogendioxide < 0.1)
-      nitrogendioxide= 0.0;
-   if(nitrogendioxide > 10.0)
-      nitrogendioxide = 10.0;
-   this->nitrogen_dioxide_sensor_->publish_state(nitrogendioxide);
-}
+    float nitrogendioxide = 0.0f;
+    if (ox_f < 1.1f) {
+      nitrogendioxide = 0.0;
+    } else {
+      nitrogendioxide = (ox_f - 0.045) / 6.13);
+    }
+    if(nitrogendioxide < 0.1)
+       nitrogendioxide = 0.0;
+    if(nitrogendioxide > 10.0)
+       nitrogendioxide = 10.0;
 
-
-
-
-
- // if (this->nitrogen_dioxide_sensor_ != nullptr) {
- //   float nitrogendioxide = 0.0f;
- //   if (ox_f < 0.3f) {
- //     nitrogendioxide = 0.0;
- //   } else {
- //     nitrogendioxide = 0.164 * pow(ox_f, 0.975);
- //   }
- //   this->nitrogen_dioxide_sensor_->publish_state(nitrogendioxide);
- //
- }
+    this->nitrogen_dioxide_sensor_->publish_state(nitrogendioxide);
+  }
 
   if (this->methane_sensor_ != nullptr) {
     float methane = 0.0f;
